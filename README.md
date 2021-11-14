@@ -1,6 +1,6 @@
-#Project : COVID in Canada
+Project : COVID in Canada
 
-##Overview
+Overview
 We want to understand the discussions currently happening around COVID in Canadian social media. Specifically, we want to know:
 1. The salient topics discussed around COVID and what each topic primarily concerns
 2. Relative engagement with those topics
