@@ -9,13 +9,15 @@ auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
-hashtags = ['Covid', 'vaccination', 'Pfizer', 'Moderna']
+words = ['Covid', 'vaccination', 'Pfizer', 'Moderna', 'corona', 'AstraZeneca', 'Janssen']
+geocodes = ['56.988998,-133.811869,2100km', '55.705271,-77.549072,2000km']
 df=pd.DataFrame()
-for hashtag in hashtags:
-    tweets = tw.Cursor(api.search_tweets, q=hashtag, lang="en", result_type="recent").items(1000)
-    clean_tweets = [[tweet.id, tweet.text, tweet.created_at, tweet.user.location] for tweet in tweets]
-    tweet_text = pd.DataFrame(data=clean_tweets, columns=['id','text','time', 'location'])
-    if hashtags.index(hashtag) == 0:
-        tweet_text.to_csv('data2.csv', mode='w')
-    else:
-        tweet_text.to_csv('data2.csv', mode='a', header=False)
+for word in words:
+    for geocode in geocodes:
+        tweets = tw.Cursor(api.search_tweets, q=word, lang='en', geocode=geocode, result_type='recent').items(1000)
+        clean_tweets = [[tweet.id, tweet.text, tweet.created_at, tweet.user.location] for tweet in tweets]
+        tweet_text = pd.DataFrame(data=clean_tweets, columns=['id','text','time', 'location'])
+        if (words.index(word) == 0) and (geocodes.index(geocode) == 0):
+            tweet_text.to_csv('collected_data.csv', mode='w')
+        else:
+            tweet_text.to_csv('collected_data.csv', mode='a', header=False)
