@@ -10,11 +10,11 @@ auth.set_access_token(access_token, access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
 words = ['Covid', 'vaccination', 'Pfizer', 'Moderna', 'corona', 'AstraZeneca', 'Janssen']
-geocodes = ['56.988998,-133.811869,2100km', '55.705271,-77.549072,2000km']
+geocodes = ['56.988998,-133.811869,1500km', '55.705271,-77.549072,1500km']
 df=pd.DataFrame()
 for word in words:
     for geocode in geocodes:
-        tweets = tw.Cursor(api.search_tweets, q=word, lang='en', geocode=geocode, result_type='recent').items(1000)
+        tweets = tw.Cursor(api.search_tweets, q=word, lang='en', geocode=geocode).items(1500)
         clean_tweets = [[tweet.id, tweet.text, tweet.created_at, tweet.user.location] for tweet in tweets]
         tweet_text = pd.DataFrame(data=clean_tweets, columns=['id','text','time', 'location'])
         if (words.index(word) == 0) and (geocodes.index(geocode) == 0):
