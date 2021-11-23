@@ -9,7 +9,9 @@ auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
+# FIlter tweets by words and hashtags
 words = ['Covid', 'vaccination', 'Pfizer', 'Moderna', 'corona', 'AstraZeneca', 'Janssen']
+# Get tweets from Canada
 geocodes = ['56.988998,-133.811869,1500km', '55.705271,-77.549072,1500km']
 df=pd.DataFrame()
 for word in words:
