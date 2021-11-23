@@ -14,10 +14,10 @@ geocodes = ['56.988998,-133.811869,1500km', '55.705271,-77.549072,1500km']
 df=pd.DataFrame()
 for word in words:
     for geocode in geocodes:
-        tweets = tw.Cursor(api.search_tweets, q=word, lang='en', geocode=geocode).items(1500)
-        clean_tweets = [[tweet.id, tweet.text, tweet.created_at, tweet.user.location] for tweet in tweets]
+        tweets = tw.Cursor(api.search_tweets, q=word, lang='en', geocode=geocode, tweet_mode='extended').items(1500)
+        clean_tweets = [[tweet.id, tweet.full_text, tweet.created_at, tweet.user.location] for tweet in tweets]
         tweet_text = pd.DataFrame(data=clean_tweets, columns=['id','text','time', 'location'])
         if (words.index(word) == 0) and (geocodes.index(geocode) == 0):
-            tweet_text.to_csv('collected_data.csv', mode='w')
+            tweet_text.to_csv('collected_data_full_text.csv', mode='w')
         else:
-            tweet_text.to_csv('collected_data.csv', mode='a', header=False)
+            tweet_text.to_csv('collected_data_full_text.csv', mode='a', header=False)
